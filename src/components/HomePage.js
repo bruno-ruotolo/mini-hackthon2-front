@@ -1,13 +1,17 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { UserInfosContext } from './context/UserInfosContext';
 
 function HomePage() {
+
+  const { userInfos, setUserInfos } = useContext(UserInfosContext)
   const [name, setName] = useState();
 
   const navigate = useNavigate();
   function startGame(e) {
     e.preventDefault();
+    setUserInfos({ ...userInfos, name })
     navigate('/questions');
   }
 
