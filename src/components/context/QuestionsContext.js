@@ -9,20 +9,20 @@ export default function QuestionsProvider({ children }) {
   useEffect(() => {
     async function getQuestions(req, res) {
       try {
-        const easyQuestions = await axios.get("https://hackathon-geomaster.herokuapp.com/questions?difficulty=easy");
-        const mediumQuestions = await axios.get("https://hackathon-geomaster.herokuapp.com/questions?difficulty=medium");
-        const hardQuestions = await axios.get("https://hackathon-geomaster.herokuapp.com/questions?difficulty=hard");
+        const easyQuestions = await axios.get("https://hackathon-geomaster.herokuapp.com/questions?dificulty=easy");
+        const mediumQuestions = await axios.get("https://hackathon-geomaster.herokuapp.com/questions?dificulty=medium");
+        const hardQuestions = await axios.get("https://hackathon-geomaster.herokuapp.com/questions?dificulty=hard");
 
         setQuestions([
-          ...easyQuestions.sort(() => Math.random() - 0.5).splice(0, 3)
-          , ...mediumQuestions.sort(() => Math.random() - 0.5).splice(0, 3)
-          , ...hardQuestions.sort(() => Math.random() - 0.5).splice(0, 3)
+          ...easyQuestions.data.sort(() => Math.random() - 0.5).splice(0, 3)
+          , ...mediumQuestions.data.sort(() => Math.random() - 0.5).splice(0, 3)
+          , ...hardQuestions.data.sort(() => Math.random() - 0.5).splice(0, 3)
         ]);
 
         res.send(200);
       } catch (e) {
         console.log(e);
-        res.sendStatus(500)
+        res.sendStatus(500);
       }
     }
     getQuestions();
