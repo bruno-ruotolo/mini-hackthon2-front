@@ -37,6 +37,7 @@ function Questions() {
   function renderQuestion() {
     setAnswerQuestion();
     setState("");
+    setButtonStatus(false);
     setClicked(!clicked);
   }
 
@@ -64,8 +65,7 @@ function Questions() {
                 <Button key={index} answer={answer} isCorrect={isCorrect} setState={(value) => setState(value)}
                   setButtonStatus={setButtonStatus} buttonStatus={buttonStatus} />
               )
-            }
-          }
+            })}
         </form>
       </main>
       <ArticleDiv state={state}>
