@@ -2,11 +2,11 @@ import { useState } from "react"
 import styled from "styled-components"
 
 export default function Button({ answer, isCorrect, setState }) {
-  const [style, setStyle] = useState(false);
+  const [styleStatus, setStyleStatus] = useState(false);
 
   return (
-    <ButtonDiv style={style} isCorrect={isCorrect}>
-      <button type="submit" onClick={() => { setState(isCorrect); setStyle(true) }}><p>{answer}</p></button>
+    <ButtonDiv styleStatus={styleStatus} isCorrect={isCorrect}>
+      <button type="submit" onClick={() => { setState(isCorrect); setStyleStatus(true) }}><p>{answer}</p></button>
     </ButtonDiv >
   )
 }
@@ -24,8 +24,8 @@ const ButtonDiv = styled.div`
     font-size: 24px;
     font-weight: 400;
     margin-top: 20px;
-    border: ${({ style, isCorrect }) => {
-    if (style) {
+    border: ${({ styleStatus, isCorrect }) => {
+    if (styleStatus) {
       if (isCorrect) {
         return "2px solid green";
       } else {

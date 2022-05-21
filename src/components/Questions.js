@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { QuestionsContext } from './context/QuestionsContext'
@@ -8,27 +8,30 @@ import Button from './Button';
 function Questions() {
   const { questions } = useContext(QuestionsContext);
 
-  const [answerQuestion, setAnswerQuestion] = useState(questions[0]);
+  const [answerQuestion, setAnswerQuestion] = useState();
   const [state, setState] = useState("");
+
+  console.log(answerQuestion)
+  useEffect(() => {
+    setAnswerQuestion(questions[0]);
+  }, [questions])
 
   const navigate = useNavigate();
   function toScore() {
     navigate('/score');
   }
 
-  console.log(questions);
-
-  return questions ? (
+  return (questions.length > 0) && answerQuestion ? (
     <Container>
       <section>
         <p>{answerQuestion.question}</p>
       </section>
       <main>
         <form>
-          {answerQuestion.answers.map((value) => {
+          {answerQuestion.answers.map((value, index) => {
             const { answer, isCorrect } = value;
             return (
-              <Button answer={answer} isCorret={isCorrect} setState={(value) => setState(value)} />
+              <Button key={index} answer={answer} isCorret={isCorrect} setState={(value) => setState(value)} />
             )
           })}
         </form>
@@ -49,7 +52,7 @@ function Questions() {
               <button onClick={toScore}>Scores</button>
             </>)
         }
-       </ArticleDiv> 
+      </ArticleDiv>
     </Container>
   ) : <Container></Container>;
 }

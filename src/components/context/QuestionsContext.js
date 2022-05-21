@@ -7,7 +7,7 @@ export default function QuestionsProvider({ children }) {
   const [questions, setQuestions] = useState([]);
 
   useEffect(() => {
-    async function getQuestions(req, res) {
+    async function getQuestions() {
       try {
         const easyQuestions = await axios.get("https://hackathon-geomaster.herokuapp.com/questions?dificulty=easy");
         const mediumQuestions = await axios.get("https://hackathon-geomaster.herokuapp.com/questions?dificulty=medium");
@@ -19,10 +19,8 @@ export default function QuestionsProvider({ children }) {
           , ...hardQuestions.data.sort(() => Math.random() - 0.5).splice(0, 3)
         ]);
 
-        res.send(200);
       } catch (e) {
         console.log(e);
-        res.sendStatus(500);
       }
     }
     getQuestions();
