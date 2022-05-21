@@ -11,7 +11,7 @@ function HomePage() {
   const navigate = useNavigate();
   function startGame(e) {
     e.preventDefault();
-    setUserInfos({ ...userInfos, name })
+    setUserInfos({ ...userInfos, user: name })
     navigate('/questions');
   }
 

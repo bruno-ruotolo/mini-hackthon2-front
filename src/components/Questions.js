@@ -1,24 +1,47 @@
 import styled from 'styled-components';
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 import { QuestionsContext } from './context/QuestionsContext'
 import Button from './Button';
+import { UserInfosContext } from './context/UserInfosContext';
 
 function Questions() {
   const { questions } = useContext(QuestionsContext);
+  const { userInfos } = useContext(UserInfosContext)
 
   const [answerQuestion, setAnswerQuestion] = useState();
   const [state, setState] = useState("");
+  const [clicked, setClicked] = useState(false);
+  const [buttonStatus, setButtonStatus] = useState(false)
 
-  console.log(answerQuestion)
   useEffect(() => {
-    setAnswerQuestion(questions[0]);
-  }, [questions])
+    console.log("Renderizei")
+    setAnswerQuestion(questions[userInfos.score]);
+  }, [questions, clicked]);
+
+
 
   const navigate = useNavigate();
   function toScore() {
-    navigate('/score');
+    const promise = axios.post("https://hackathon-geomaster.herokuapp.com/score", userInfos)
+    promise.then(() => {
+      navigate('/score');
+    });
+    promise.catch((e) => {
+      console.log(e.message);
+    })
+  }
+
+  function renderQuestion() {
+    setAnswerQuestion();
+    setState("");
+    setClicked(!clicked);
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
   }
 
   return (questions.length > 0) && answerQuestion ? (
@@ -27,13 +50,22 @@ function Questions() {
         <p>{answerQuestion.question}</p>
       </section>
       <main>
-        <form>
-          {answerQuestion.answers.map((value, index) => {
-            const { answer, isCorrect } = value;
-            return (
-              <Button key={index} answer={answer} isCorret={isCorrect} setState={(value) => setState(value)} />
-            )
-          })}
+        <form onSubmit={handleSubmit}>
+          {!buttonStatus ?
+            answerQuestion.answers.sort(() => Math.random() - 0.5).map((value, index) => {
+              const { answer, isCorrect } = value;
+              return (
+                <Button key={index} answer={answer} isCorrect={isCorrect} setState={(value) => setState(value)}
+                  setButtonStatus={setButtonStatus} buttonStatus={buttonStatus} />
+              )
+            }) : answerQuestion.answers.map((value, index) => {
+              const { answer, isCorrect } = value;
+              return (
+                <Button key={index} answer={answer} isCorrect={isCorrect} setState={(value) => setState(value)}
+                  setButtonStatus={setButtonStatus} buttonStatus={buttonStatus} />
+              )
+            }
+          }
         </form>
       </main>
       <ArticleDiv state={state}>
@@ -43,7 +75,7 @@ function Questions() {
               <section>
                 <p>{answerQuestion.article}</p>
               </section>
-              <button >Próxima</button>
+              <button onClick={renderQuestion}>Próxima</button>
             </>) :
             (<>
               <section>
@@ -89,12 +121,16 @@ const Container = styled.main`
       flex-wrap: wrap;
     }
   }
+`
+const ArticleDiv = styled.div`
+  display: ${(props) => props.state === "" ? 'none' : 'flex'};
+  flex-direction: column;
+  align-items:center;
+  justify-content:center;
+  
   button {
     margin-top: 56px;
     width: 285px;
     height: 63px;
   }
-`
-const ArticleDiv = styled.div`
-  display: ${(props) => props.state === "" ? 'none' : 'block'}
 `

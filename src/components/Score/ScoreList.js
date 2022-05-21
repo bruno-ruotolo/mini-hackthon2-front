@@ -11,6 +11,7 @@ export default function ScoreList({ user, score }) {
 
 const ScoreSection = styled.div`
   display:flex;
+  width: 100%;
   justify-content:space-between;
   margin-bottom: 10px;
 `

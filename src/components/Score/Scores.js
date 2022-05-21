@@ -1,16 +1,18 @@
 import styled from "styled-components"
 import { useEffect, useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import ScoreList from "./ScoreList";
 import axios from "axios";
 import { UserInfosContext } from "../context/UserInfosContext";
 
 function Scores() {
+  const navigate = useNavigate();
   const [scores, setScores] = useState([])
 
   const { userInfos } = useContext(UserInfosContext)
 
   useEffect(() => {
-    const promise = axios.get("/score");
+    const promise = axios.get("https://hackathon-geomaster.herokuapp.com/score");
     promise.then(({ data }) => {
       setScores(data);
     })
@@ -36,7 +38,7 @@ function Scores() {
             })}
           </Score>
         </ScoresDiv>
-        <button>Refazer</button>
+        <button onClick={() => navigate('/')}>Refazer</button>
       </ScoreSection>
     </>
   );
@@ -46,6 +48,7 @@ export default Scores;
 
 const ScoreSection = styled.section`
   display:flex;
+  width: 100%;
   flex-direction:column;
   align-items:center;
   justify-content:center;
@@ -91,6 +94,7 @@ const ScoresDiv = styled.div`
 `
 const Score = styled.div`
   display:flex;
+  width: 80%;
   align-items:center;
   justify-content:center;
   flex-direction:column;
