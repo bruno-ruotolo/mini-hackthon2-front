@@ -4,7 +4,7 @@ import GlobalStyles from './GlobalStyles';
 
 import HomePage from './HomePage';
 import Questions from './Questions';
-import Score from './Score';
+import Scores from './Score/Scores';
 import QuestionsProvider from './context/QuestionsContext';
 import UserInfosProvider from './context/UserInfosContext';
 
@@ -17,7 +17,7 @@ function App() {
           <Routes>
             <Route path='/' element={<HomePage />} />
             <Route path='/questions' element={<Questions />} />
-            <Route path='/score' element={<Score />} />
+            <Route path='/score' element={<Scores />} />
           </Routes>
         </UserInfosProvider>
       </QuestionsProvider>

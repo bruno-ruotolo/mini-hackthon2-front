@@ -4,20 +4,20 @@ import axios from "axios";
 export const QuestionsContext = createContext({});
 
 export default function QuestionsProvider({ children }) {
-  const [questionEasy, setQuestionEasy] = useState([]);
-  const [questionMedium, setQuestionMedium] = useState([]);
-  const [questionHard, setQuestionHard] = useState([]);
+  const [questions, setQuestions] = useState([]);
 
   useEffect(() => {
     async function getQuestions(req, res) {
       try {
-        const easyQuestions = await axios.get("/questions?difficulty=easy");
-        const mediumQuestions = await axios.get("/questions?difficulty=easy");
-        const hardQuestions = await axios.get("/questions?difficulty=easy");
+        const easyQuestions = await axios.get("https://hackathon-geomaster.herokuapp.com/questions?difficulty=easy");
+        const mediumQuestions = await axios.get("https://hackathon-geomaster.herokuapp.com/questions?difficulty=medium");
+        const hardQuestions = await axios.get("https://hackathon-geomaster.herokuapp.com/questions?difficulty=hard");
 
-        setQuestionEasy(easyQuestions.sort(() => Math.random() - 0.5));
-        setQuestionMedium(mediumQuestions.sort(() => Math.random() - 0.5));
-        setQuestionHard(hardQuestions.sort(() => Math.random() - 0.5))
+        setQuestions([
+          ...easyQuestions.sort(() => Math.random() - 0.5).splice(0, 3)
+          , ...mediumQuestions.sort(() => Math.random() - 0.5).splice(0, 3)
+          , ...hardQuestions.sort(() => Math.random() - 0.5).splice(0, 3)
+        ]);
 
         res.send(200);
       } catch (e) {
@@ -25,10 +25,11 @@ export default function QuestionsProvider({ children }) {
         res.sendStatus(500)
       }
     }
+    getQuestions();
   }, [])
 
   return (
-    <QuestionsContext.Provider value={{ questionEasy, questionMedium, questionHard }}>
+    <QuestionsContext.Provider value={{ questions }}>
       {children}
     </QuestionsContext.Provider>
   )

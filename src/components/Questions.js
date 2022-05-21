@@ -1,32 +1,67 @@
 import styled from 'styled-components';
-import { useContext } from "react"
-import { QuestionsContext } from './context/QuestionsContext';
+import { useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import { QuestionsContext } from './context/QuestionsContext'
+import Button from './Button';
 
 function Questions() {
-  const { questionEasy, questionMedium, questionHard } = useContext(QuestionsContext)
+  const { questions } = useContext(QuestionsContext);
 
-  return (
+  const [answerQuestion, setAnswerQuestion] = useState(questions[0]);
+  const [state, setState] = useState();
+
+  const navigate = useNavigate();
+  function toScore() {
+    navigate('/score');
+  }
+
+  function renderNext() {
+
+  }
+
+  const { question, answers, article } = answerQuestion;
+  return Object.keys(answerQuestion).length !== 0 ? (
     <Container>
       <section>
-        <p>HSAUSAUHSUAHSUAUHSUAH SUAUSAHSUAHSUASHAUSHAU SHUASHUA</p>
+        <p>{answerQuestion.question}</p>
       </section>
       <main>
-        <div><p>Resposta 1</p></div>
-        <div><p>Resposta 2</p></div>
-        <div><p>Resposta 3</p></div>
-        <div><p>Resposta 4</p></div>
+        <form>
+          {answersQuestion.answers.map((value) => {
+            const { answer, isCorrect } = value;
+            return (
+              <Button answer={answer} isCorret={isCorrect} setState={(value) => setState(value)} />
+            )
+          })}
+        </form>
       </main>
-      <section>
-        <p>Blablbalbalbakalabalabaasasa</p>
-      </section>
+      <ArticleDiv>
+        {
+          state ?
+            (<>
+              <section>
+                <p>{article}</p>
+              </section>
+              <button onClick={renderNext}>Próxima</button>
+            </>) :
+            (<>
+              <section>
+                <p>{article}</p>
+              </section>
+              <button onClick={toScore}>Scores</button>
+            </>)
+        }
+      </ArticleDiv>
     </Container>
-  );
+  ) : <Container></Container>;
 }
 
 export default Questions;
 
 const Container = styled.main`
   display: flex;
+  align-items: center;
   justify-content: center;
   flex-direction: column;
   padding: 60px 26px;
@@ -35,6 +70,7 @@ const Container = styled.main`
   min-height: 100vh;
   height: fit-content;
   section {
+    width: 319px;   
     border-radius: 4px;
     padding: 28px;
     background-color: #2F4463;  
@@ -45,17 +81,20 @@ const Container = styled.main`
     justify-content: space-between;
     flex-wrap: wrap;
     height: 400px;
-    div {
-      display: flex;
+
+    form {
+      display:flex;
       align-items: center;
-      justify-content: center;  
-      width: 150px;
-      height: 150px;
-      background-color: #10BD9B;
-      border-radius: 4px;
-      color: #000000;
-      font-size: 24px;
-      font-weight: 400;
+      justify-content: space-between;
+      flex-wrap: wrap;
     }
   }
+  button {
+    margin-top: 56px;
+    width: 285px;
+    height: 63px;
+  }
+`
+
+const ArticleDiv = styled.div`
 `
