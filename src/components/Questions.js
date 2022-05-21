@@ -9,26 +9,23 @@ function Questions() {
   const { questions } = useContext(QuestionsContext);
 
   const [answerQuestion, setAnswerQuestion] = useState(questions[0]);
-  const [state, setState] = useState();
+  const [state, setState] = useState("");
 
   const navigate = useNavigate();
   function toScore() {
     navigate('/score');
   }
 
-  function renderNext() {
+  console.log(questions);
 
-  }
-
-  const { question, answers, article } = answerQuestion;
-  return Object.keys(answerQuestion).length !== 0 ? (
+  return questions ? (
     <Container>
       <section>
         <p>{answerQuestion.question}</p>
       </section>
       <main>
         <form>
-          {answersQuestion.answers.map((value) => {
+          {answerQuestion.answers.map((value) => {
             const { answer, isCorrect } = value;
             return (
               <Button answer={answer} isCorret={isCorrect} setState={(value) => setState(value)} />
@@ -36,23 +33,23 @@ function Questions() {
           })}
         </form>
       </main>
-      <ArticleDiv>
+      <ArticleDiv state={state}>
         {
           state ?
             (<>
               <section>
-                <p>{article}</p>
+                <p>{answerQuestion.article}</p>
               </section>
-              <button onClick={renderNext}>Próxima</button>
+              <button >Próxima</button>
             </>) :
             (<>
               <section>
-                <p>{article}</p>
+                <p>{answerQuestion.article}</p>
               </section>
               <button onClick={toScore}>Scores</button>
             </>)
         }
-      </ArticleDiv>
+       </ArticleDiv> 
     </Container>
   ) : <Container></Container>;
 }
@@ -95,6 +92,6 @@ const Container = styled.main`
     height: 63px;
   }
 `
-
 const ArticleDiv = styled.div`
+  display: ${(props) => props.state === "" ? 'none' : 'block'}
 `
