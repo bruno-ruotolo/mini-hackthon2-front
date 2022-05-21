@@ -30,7 +30,7 @@ const ButtonDiv = styled.div`
     background-color: #10BD9B;
     border-radius: 4px;
     color: #000000;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 400;
     margin-top: 20px;
     border: ${({ styleStatus, isCorrect }) => {
