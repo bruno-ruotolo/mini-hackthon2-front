@@ -19,6 +19,7 @@ function Scores() {
 
     promise.catch(e => console.log(e))
   }, [])
+
   return (
     <>
       <ScoreSection>

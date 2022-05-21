@@ -17,7 +17,6 @@ function Questions() {
   const [buttonStatus, setButtonStatus] = useState(false)
 
   useEffect(() => {
-    console.log("Renderizei")
     setAnswerQuestion(questions[userInfos.score]);
   }, [questions, clicked]);
 

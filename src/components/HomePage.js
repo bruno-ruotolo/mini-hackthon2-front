@@ -33,9 +33,6 @@ function HomePage() {
 
 export default HomePage;
 
-
-// font-family: 'Skranji', cursive;
-
 const Container = styled.main`
   display: flex;
   flex-direction: column;
